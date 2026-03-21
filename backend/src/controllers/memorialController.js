@@ -65,8 +65,38 @@ const buscarMemorial = async (req, res) => {
 
 }
 
+const atualizarMemorial = async (req, res) => {
+
+    try {
+
+        const id = req.params.id
+        const dados = req.body
+
+        const resultado = await memorialModel.updateMemorial(id, dados)
+
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({
+                erro: "Memorial não encontrado"
+            })
+        }
+
+        res.json({
+            mensagem: "Memorial atualizado com sucesso"
+        })
+
+    } catch (error) {
+
+        res.status(500).json({
+            erro: "Erro ao atualizar memorial"
+        })
+
+    }
+
+}
+
 module.exports = {
     listarMemoriais,
     criarMemorial,
-    buscarMemorial
+    buscarMemorial,
+    atualizarMemorial
 }

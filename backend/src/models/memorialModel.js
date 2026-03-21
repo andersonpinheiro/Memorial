@@ -62,8 +62,40 @@ const getMemorialById = (id) => {
     })
 }
 
+const updateMemorial = (id, memorial) => {
+    return new Promise((resolve, reject) => {
+
+        const sql = `
+        UPDATE memoriais
+        SET nome_falecido = ?, cidade = ?, biografia = ?
+        WHERE id = ?
+        `
+
+        db.query(
+            sql,
+            [
+                memorial.nome_falecido,
+                memorial.cidade,
+                memorial.biografia,
+                id
+            ],
+            (err, result) => {
+
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+
+            }
+        )
+
+    })
+}
+
 module.exports = {
     getAllMemoriais,
     createMemorial,
-    getMemorialById
+    getMemorialById,
+    updateMemorial
 }
