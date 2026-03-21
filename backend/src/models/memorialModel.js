@@ -19,17 +19,24 @@ const getAllMemoriais = () => {
 }
 
 const createMemorial = (memorial) => {
+
     return new Promise((resolve, reject) => {
 
         const sql = `
         INSERT INTO memoriais
-        (nome_falecido, cidade, biografia)
-        VALUES (?, ?, ?)
+        (nome_falecido, cidade, biografia, slug, foto)
+        VALUES (?, ?, ?, ?, ?)
         `
 
         db.query(
             sql,
-            [memorial.nome_falecido, memorial.cidade, memorial.biografia],
+            [
+                memorial.nome_falecido,
+                memorial.cidade,
+                memorial.biografia,
+                memorial.slug,
+                memorial.foto
+            ],
             (err, result) => {
 
                 if (err) {
@@ -42,6 +49,7 @@ const createMemorial = (memorial) => {
         )
 
     })
+
 }
 
 const getMemorialById = (id) => {
@@ -111,10 +119,34 @@ const deleteMemorial = (id) => {
     })
 }
 
+const getMemorialBySlug = (slug) => {
+
+    return new Promise((resolve, reject) => {
+
+        const sql = `
+        SELECT * FROM memoriais
+        WHERE slug = ?
+        `
+
+        db.query(sql, [slug], (err, result) => {
+
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result[0])
+            }
+
+        })
+
+    })
+
+}
+
 module.exports = {
     getAllMemoriais,
     createMemorial,
     getMemorialById,
+    getMemorialBySlug,
     updateMemorial,
     deleteMemorial
 }

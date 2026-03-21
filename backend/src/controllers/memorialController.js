@@ -1,4 +1,5 @@
 const memorialModel = require("../models/memorialModel")
+const gerarSlug = require("../utils/slug")
 
 const listarMemoriais = async (req, res) => {
 
@@ -20,9 +21,15 @@ const criarMemorial = async (req, res) => {
 
     try {
 
-        const memorial = req.body
+        const dados = req.body
 
-        const resultado = await memorialModel.createMemorial(memorial)
+        dados.slug = gerarSlug(dados.nome_falecido)
+
+        if (req.file) {
+            dados.foto = req.file.filename
+        }
+
+        const resultado = await memorialModel.createMemorial(dados)
 
         res.status(201).json({
             mensagem: "Memorial criado com sucesso",
@@ -30,6 +37,8 @@ const criarMemorial = async (req, res) => {
         })
 
     } catch (error) {
+
+        console.log(error)
 
         res.status(500).json({
             erro: "Erro ao criar memorial"
@@ -122,10 +131,39 @@ const deletarMemorial = async (req, res) => {
 
 }
 
+const buscarMemorialPorSlug = async (req, res) => {
+
+    try {
+
+        const slug = req.params.slug
+
+        const memorial = await memorialModel.getMemorialBySlug(slug)
+
+        if (!memorial) {
+            return res.status(404).json({
+                erro: "Memorial não encontrado"
+            })
+        }
+
+        res.json(memorial)
+
+    } catch (error) {
+
+        console.log(error)
+
+        res.status(500).json({
+            erro: "Erro ao buscar memorial"
+        })
+
+    }
+
+}
+
 module.exports = {
     listarMemoriais,
     criarMemorial,
     buscarMemorial,
+    buscarMemorialPorSlug,
     atualizarMemorial,
     deletarMemorial
 }

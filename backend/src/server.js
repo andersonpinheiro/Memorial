@@ -5,6 +5,10 @@ const memorialRoutes = require("./routes/memorialRoutes")
 
 const app = express()
 
+const usuarioRoutes = require("./routes/usuarioRoutes")
+
+app.use("/api", usuarioRoutes)
+
 app.use(cors())
 app.use(express.json())
 
@@ -19,3 +23,5 @@ const PORT = 3000
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)
 })
+
+app.use("/uploads", express.static("uploads"))
