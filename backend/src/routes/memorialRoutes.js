@@ -12,4 +12,6 @@ router.get("/memoriais/:id", memorialController.buscarMemorial)
 
 router.put("/memoriais/:id", memorialController.atualizarMemorial)
 
+router.delete("/memoriais/:id", memorialController.deletarMemorial)
+
 module.exports = router

@@ -93,9 +93,28 @@ const updateMemorial = (id, memorial) => {
     })
 }
 
+const deleteMemorial = (id) => {
+    return new Promise((resolve, reject) => {
+
+        const sql = "DELETE FROM memoriais WHERE id = ?"
+
+        db.query(sql, [id], (err, result) => {
+
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
+
+        })
+
+    })
+}
+
 module.exports = {
     getAllMemoriais,
     createMemorial,
     getMemorialById,
-    updateMemorial
+    updateMemorial,
+    deleteMemorial
 }

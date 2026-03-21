@@ -94,9 +94,38 @@ const atualizarMemorial = async (req, res) => {
 
 }
 
+const deletarMemorial = async (req, res) => {
+
+    try {
+
+        const id = req.params.id
+
+        const resultado = await memorialModel.deleteMemorial(id)
+
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({
+                erro: "Memorial não encontrado"
+            })
+        }
+
+        res.json({
+            mensagem: "Memorial deletado com sucesso"
+        })
+
+    } catch (error) {
+
+        res.status(500).json({
+            erro: "Erro ao deletar memorial"
+        })
+
+    }
+
+}
+
 module.exports = {
     listarMemoriais,
     criarMemorial,
     buscarMemorial,
-    atualizarMemorial
+    atualizarMemorial,
+    deletarMemorial
 }
