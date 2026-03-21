@@ -44,7 +44,26 @@ const createMemorial = (memorial) => {
     })
 }
 
+const getMemorialById = (id) => {
+    return new Promise((resolve, reject) => {
+
+        const sql = "SELECT * FROM memoriais WHERE id = ?"
+
+        db.query(sql, [id], (err, result) => {
+
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result[0])
+            }
+
+        })
+
+    })
+}
+
 module.exports = {
     getAllMemoriais,
-    createMemorial
+    createMemorial,
+    getMemorialById
 }

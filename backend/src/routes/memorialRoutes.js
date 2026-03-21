@@ -8,4 +8,6 @@ router.get("/memoriais", memorialController.listarMemoriais)
 
 router.post("/memoriais", memorialController.criarMemorial)
 
+router.get("/memoriais/:id", memorialController.buscarMemorial)
+
 module.exports = router

@@ -39,7 +39,34 @@ const criarMemorial = async (req, res) => {
 
 }
 
+const buscarMemorial = async (req, res) => {
+
+    try {
+
+        const id = req.params.id
+
+        const memorial = await memorialModel.getMemorialById(id)
+
+        if (!memorial) {
+            return res.status(404).json({
+                erro: "Memorial não encontrado"
+            })
+        }
+
+        res.json(memorial)
+
+    } catch (error) {
+
+        res.status(500).json({
+            erro: "Erro ao buscar memorial"
+        })
+
+    }
+
+}
+
 module.exports = {
     listarMemoriais,
-    criarMemorial
+    criarMemorial,
+    buscarMemorial
 }
