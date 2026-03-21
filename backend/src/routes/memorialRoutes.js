@@ -6,4 +6,6 @@ const memorialController = require("../controllers/memorialController")
 
 router.get("/memoriais", memorialController.listarMemoriais)
 
+router.post("/memoriais", memorialController.criarMemorial)
+
 module.exports = router

@@ -18,6 +18,33 @@ const getAllMemoriais = () => {
     })
 }
 
+const createMemorial = (memorial) => {
+    return new Promise((resolve, reject) => {
+
+        const sql = `
+        INSERT INTO memoriais
+        (nome_falecido, cidade, biografia)
+        VALUES (?, ?, ?)
+        `
+
+        db.query(
+            sql,
+            [memorial.nome_falecido, memorial.cidade, memorial.biografia],
+            (err, result) => {
+
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+
+            }
+        )
+
+    })
+}
+
 module.exports = {
-    getAllMemoriais
+    getAllMemoriais,
+    createMemorial
 }
